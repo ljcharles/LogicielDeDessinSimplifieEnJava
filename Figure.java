@@ -19,11 +19,11 @@ import java.util.LinkedList;
 		  public abstract LinkedList<Point> getPoints();
 
 		public String getNom() {
-			return nom;
+			return nom.toUpperCase();
 		}
 
 		public void setNom(String nom) {
-			this.nom = nom;
+			if(nom != null) this.nom = nom;
 		}
 		
 		public LinkedList<Point> creatList(LinkedList<Figure> l){

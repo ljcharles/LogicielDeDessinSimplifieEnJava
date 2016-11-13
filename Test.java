@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import javax.swing.*;
@@ -71,17 +72,39 @@ public class Test {
 
 	}
 
+	public void SauveQuiPeut(LinkedList<Figure> col, ObjectOutputStream out){
+		for(Object o : col) 
+			if(o instanceof Serializable)
+				try { out.writeObject(o); } 
+			    catch (IOException e) { e.printStackTrace();}
+	}
+	
 	public void testSerialization(){
 		Point p7 = new Point(2, 14, "A");
 		Point p8 = new Point(14, 5,"B");
 		Cercle c1 = new Cercle(p7,p8,"C1");
+		
+		Point p = new Point(1, 2, "E");
+		Point p1 = new Point(3, 4,"F");
+		Point p2 = new Point(5, 6, "G");
+		Point p3 = new Point(7, 8,"H");
+
+		Polygone poly = new Polygone("poli");
+		poly.add(p);
+		poly.add(p1);
+		poly.add(p2);
+		poly.add(p3);
 
 		try {
 			OutputStream f = new FileOutputStream("testJava.txt");
 			ObjectOutputStream out = new ObjectOutputStream(f);
-			out.writeObject(p7);
-			out.writeObject(p8);
-			out.writeObject(c1);
+			LinkedList<Figure> lf = new LinkedList<Figure>();
+			
+			lf.add(poly);
+			lf.add(c1);
+			lf.add(p);
+			
+			SauveQuiPeut(lf, out);		
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -181,12 +204,12 @@ public class Test {
 	public static void main(String[] args) throws PointsConfondusException {
 		Test test = new Test();
 		//test.testPoint();
-		test.testSegment();
+		//test.testSegment();
 	    //test.testCercle();
-		//test.testSerialization();
+		test.testSerialization();
 		//test.testStructures();
 		//test.testPolygone();
-		test.fenetre();
+		//test.fenetre();
 
 
 	}
