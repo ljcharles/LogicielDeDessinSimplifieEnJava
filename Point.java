@@ -84,7 +84,6 @@ public void setY(double y) {
 	this.y = y;
 }
 
-
 public void paint(Graphics gc) {
 	gc.drawString(getNom(), (int)getX(), (int)getY() - 5);
 	gc.drawOval((int)getX(), (int)getY(), 10, 10);
