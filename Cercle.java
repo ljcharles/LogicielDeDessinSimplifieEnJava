@@ -87,4 +87,12 @@ public class Cercle extends Figure {
 		gc.drawOval((int)Centre.getX() - (int)rayon, (int)Centre.getY() - (int)rayon, (int)rayon*2, (int)rayon*2);
 	}
 
+	@Override
+	public int compareTo(Object o) {
+		return (int) (rayon - ((Cercle) o).rayon);
+	}
+
+	@Override
+	public int getPoids() { return this.getPoints().size(); }
+
 	}

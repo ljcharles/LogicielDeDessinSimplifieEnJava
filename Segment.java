@@ -89,4 +89,15 @@ public class Segment extends Figure {
 		gc.drawLine((int)p1.getX(), (int)p1.getY(), (int)p2.getX(), (int)p2.getY());
 	}
 
+	@Override
+	public int compareTo(Object o) {
+		return (int) (this.getLongueur() - ((Segment) o).getLongueur());
+	}
+
+	@Override
+	int getPoids() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	}

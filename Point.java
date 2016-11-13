@@ -33,9 +33,7 @@ public class Point  extends Figure
 	 System.out.println(toString());
 }
 
- public String toString(){
-	 return  getNom() +"( "+ getX() + "," + getY() + ")";
- }
+ public String toString(){ return  getNom() +"( "+ getX() + "," + getY() + ")"; }
 
  public  double distance(Point val)
  {
@@ -48,9 +46,7 @@ public class Point  extends Figure
 	 setY(getY() + dy);
  }
 
- public Point getCentre() {
-	return this;
- }
+ public Point getCentre() {return this;}
  
  public LinkedList<Point> getPoints() {
 	LinkedList<Point> liste = new LinkedList<Point>();
@@ -75,25 +71,27 @@ public class Point  extends Figure
 		return ob;
 	}
 
-public double getX() {
-	return x;
-}
+public double getX() {return x;}
 
-public void setX(double x) {
-	this.x = x;
-}
+public void setX(double x) {this.x = x;}
 
-public double getY() {
-	return y;
-}
+public double getY() {return y;}
 
-public void setY(double y) {
-	this.y = y;
-}
+public void setY(double y) {this.y = y;}
 
 public void paint(Graphics gc) {
 	gc.drawString(getNom(), (int)getX(), (int)getY() - 5);
 	gc.drawOval((int)getX(), (int)getY(), 10, 10);
 }
+
+@Override
+public int compareTo(Object o) {
+	if(this.equals((Point) o)) return 0;
+	return -1;
+}
+
+@Override
+public int getPoids() { return this.getPoints().size(); }
+
 
 }

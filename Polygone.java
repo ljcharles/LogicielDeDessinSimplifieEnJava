@@ -111,7 +111,6 @@ public class Polygone extends Figure{
 
 	@Override
 	public void paint(Graphics gc) {
-		// TODO Auto-generated method stub
         int taille = Sommets.size();
 
 
@@ -128,4 +127,14 @@ public class Polygone extends Figure{
 		}
 
 	}
+
+	@Override
+	public int compareTo(Object o) {
+		if(this.getPoids() > ((Polygone)o).getPoids()) return 1;
+		if(this.getPoids() == ((Polygone)o).getPoids()) return 0;
+		return -1;
+	}
+
+	@Override
+	public int getPoids() { return this.getPoints().size(); }
 }
