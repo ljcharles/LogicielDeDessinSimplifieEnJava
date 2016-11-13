@@ -203,13 +203,13 @@ public class Test {
 
 	public static void main(String[] args) throws PointsConfondusException {
 		Test test = new Test();
-		//test.testPoint();
-		//test.testSegment();
-	    //test.testCercle();
+		test.testPoint();
+		test.testSegment();
+	    test.testCercle();
 		test.testSerialization();
-		//test.testStructures();
-		//test.testPolygone();
-		//test.fenetre();
+		test.testStructures();
+		test.testPolygone();
+		test.fenetre();
 
 
 	}
