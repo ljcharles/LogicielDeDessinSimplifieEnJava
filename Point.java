@@ -1,6 +1,7 @@
 package logicieldedessin;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 
 public class Point  extends Figure
@@ -50,6 +51,12 @@ public class Point  extends Figure
  public Point getCentre() {
 	return this;
  }
+ 
+ public LinkedList<Point> getPoints() {
+	LinkedList<Point> liste = new LinkedList<Point>();
+	liste.add(this);
+	return liste;
+}
 
  public boolean equals(Point p){
 	 if(p != null)

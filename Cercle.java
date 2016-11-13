@@ -1,6 +1,7 @@
 package logicieldedessin;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 public class Cercle extends Figure {
 
@@ -40,6 +41,12 @@ public class Cercle extends Figure {
 
 	  public Point getCentre() {
 		return Centre;
+	  }
+	  
+	  public LinkedList<Point> getPoints() {
+		LinkedList<Point> liste = new LinkedList<Point>();
+		liste.add(this.Centre);
+		return liste;
 	  }
 
 	/* (non-Javadoc)

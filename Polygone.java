@@ -44,6 +44,8 @@ public class Polygone extends Figure{
 
 		return new Point(x/taille, y/taille);
 	}
+	
+	public LinkedList<Point> getPoints(){ return this.Sommets; }
 
 	public Object clone(){
 		Polygone p = null;
