@@ -1,6 +1,7 @@
 package logicieldedessin;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 /**
  * @author ljeanc04
@@ -16,13 +17,15 @@ public class Segment extends Figure {
 	 * @param p2
 	 * @param nom
 	 */
-	public Segment(Point p1, Point p2, String nom){
+	public Segment(Point p1, Point p2, String nom) throws PointsConfondusException{
+		  if(p1.equals(p2)) throw new PointsConfondusException(p1, p2);
 		  this.p1 = p1;
 		  this.p2 = p2;
 		  this.setNom(nom);
 	  }
 
-	  public Segment(Point p1, Point p2){
+	  public Segment(Point p1, Point p2) throws PointsConfondusException{
+		  if(p1.equals(p2)) throw new PointsConfondusException(p1, p2);
 		  this.p1 = p1;
 		  this.p2 = p2;
 	  }
@@ -53,6 +56,13 @@ public class Segment extends Figure {
 		 return new Point((p1.getX() + p2.getX())/2,(p1.getY()+p2.getY())/2,"Centre");
 
 	}
+	
+	 public LinkedList<Point> getPoints() {
+			LinkedList<Point> liste = new LinkedList<Point>();
+			liste.add(this.p1);
+			liste.add(this.p2);
+			return liste;
+		}
 
 	public boolean equals(Segment s){
 		if(s != null)

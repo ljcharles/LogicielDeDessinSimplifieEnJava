@@ -30,7 +30,7 @@ public class Test {
 
 	}
 
-	public void testSegment(){
+	public void testSegment() throws PointsConfondusException{
 		Point p3 = new Point(3, 8, "A");
 		Point p4 = new Point(3, 6,"B");
 		Segment s = new Segment(p3,p4, "S");
@@ -88,7 +88,7 @@ public class Test {
 		}
 	}
 
-	public void testStructures(){
+	public void testStructures() throws PointsConfondusException{
 		LinkedList<Figure> llF = new LinkedList<>();
 		Point p7 = new Point(2, 14, "A");
 		Point p8 = new Point(14, 5,"B");
@@ -178,10 +178,10 @@ public class Test {
 		f.setVisible(true);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PointsConfondusException {
 		Test test = new Test();
 		//test.testPoint();
-		//test.testSegment();
+		test.testSegment();
 	    //test.testCercle();
 		//test.testSerialization();
 		//test.testStructures();

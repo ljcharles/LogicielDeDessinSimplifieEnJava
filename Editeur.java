@@ -24,7 +24,7 @@ public class Editeur extends JFrame{
       for(Figure f : figures) f.paint(gc);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PointsConfondusException {
 		Editeur test = new Editeur();
 		test.setSize(800, 600);
 
