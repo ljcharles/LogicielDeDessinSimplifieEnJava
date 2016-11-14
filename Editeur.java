@@ -18,6 +18,9 @@ public class Editeur extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static LinkedList<Figure> figures;
+	@SuppressWarnings("unused")
+	private static Color cl;
+	protected Editeur editeur;
 
 	public Editeur(){
 		super();
@@ -27,6 +30,73 @@ public class Editeur extends JFrame{
 	public void paint(Graphics gc) {
 	  super.paint(gc);
       if( figures != null) for(Figure f : figures) f.paint(gc);
+	}
+	
+	public void createMenuBar(){
+		cl = new Color(15, 24, 32);
+		
+		JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        
+        JMenu fichierMenu = new JMenu("Fichier");
+        JMenu editerMenu = new JMenu("Edition");
+        JMenu nouveau = new JMenu("Creer");
+        
+        menuBar.add(fichierMenu);
+        menuBar.add(editerMenu);
+        
+        JMenuItem point = new JMenuItem("Point");
+        JMenuItem cercle = new JMenuItem("Cercle");
+        JMenuItem segment = new JMenuItem("Segment");
+        JMenuItem poli = new JMenuItem("Polygone");
+        JMenuItem quitter = new JMenuItem("Quitter");
+        JMenuItem modif = new JMenuItem("Modifier");
+        
+        nouveau.add(point);
+        nouveau.add(cercle); 
+        nouveau.add(segment); 
+        nouveau.add(poli); 
+        fichierMenu.add(nouveau);
+        fichierMenu.add(quitter);
+        editerMenu.add(modif);
+        
+        point.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point p = new Point(400,500,"P");
+				ZoneDeDessin z = new ZoneDeDessin(figures);
+				if(z.figures != null) z.figures.add(p);
+				
+			}
+		});
+        
+        cercle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+        
+        segment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+        
+        poli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+        
+        quitter.addActionListener(new ActionListener() {
+        	
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+        
+        modif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Lol !");
+			}
+		});
+        
 	}
 
 	public static void main(String[] args) throws PointsConfondusException {
@@ -43,8 +113,14 @@ public class Editeur extends JFrame{
 		//on cr�e les panneaux
 		JPanel panneau1 = new JPanel();
 		JPanel panneau2 = new JPanel();
-		panneau2.setBackground(Color.white);
-		panneau2.setBackground(Color.gray);
+		panneau1.setBackground(Color.white);
+		
+		JButton Init = new JButton("Initialiser la liste de figures");
+		JButton Vider = new JButton("Vider la liste de figures");
+		
+		//cl = UIManager.getColor ( Init.getBackground() );
+		
+		panneau2.setBackground(Color.lightGray);
 		panneau1.setSize(800, 400);
 
 		//On ajoute les panneaux � la fen�tre
@@ -53,43 +129,12 @@ public class Editeur extends JFrame{
 		
 		panneau2.setLayout(new FlowLayout());
 		
-		JButton Init = new JButton("Initialiser la liste de figures");
-		JButton Vider = new JButton("Vider la liste de figures");
-		
 		Init.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){ 
 				figures = new LinkedList<Figure>();
 				
-				Point p = new Point(10, 80, "A");
-		        
-				Point p3 = new Point(150, 200, "A");
-				Point p4 = new Point(3, 6,"B");
-				Segment s = null;
-				try {
-					s = new Segment(p3,p4, "S");
-				} catch (PointsConfondusException e1) {
-					e1.printStackTrace();
-				}
-
-				Point p5 = new Point(220, 150, "A");
-				Point p6 = new Point(260, 100,"B");
-				Cercle c = new Cercle(p5,p6,"C");
-
-				Point p7 = new Point(300,300, "A");
-				Point p8 = new Point(350, 300,"B");
-				Point p10 = new Point(350, 350, "C");
-				Point p9 = new Point(300, 350,"D");
-
-				Polygone poly = new Polygone("poli");
-				poly.add(p7);
-				poly.add(p8);
-				poly.add(p9);
-				poly.add(p10);
-				
-				figures.add(p);
-				figures.add(s);
-				figures.add(c);
-				figures.add(poly);
+				ZoneDeDessin dessin = new ZoneDeDessin(figures);
+				dessin.affichage();
 				
 				test.repaint();
 			}
@@ -106,6 +151,9 @@ public class Editeur extends JFrame{
 		//On ajoute les boutons � la fen�tre
 		panneau2.add(Init);
 		panneau2.add(Vider);
+		
+		test.createMenuBar();
+		test.repaint();
 		
 		test.setVisible(true);
 
