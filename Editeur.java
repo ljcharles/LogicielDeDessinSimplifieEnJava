@@ -62,9 +62,8 @@ public class Editeur extends JFrame{
         
         point.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Point p = new Point(400,500,"P");
-				ZoneDeDessin z = new ZoneDeDessin(figures);
-				if(z.figures != null) z.figures.add(p);
+				Point p = new Point(260,300,"P");
+				if( figures != null) figures.add(p);
 				
 			}
 		});
@@ -142,7 +141,7 @@ public class Editeur extends JFrame{
 		
 		Vider.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){ 
-				figures.clear();
+				if(figures != null) figures.clear();
 				
 				test.repaint();
 			}

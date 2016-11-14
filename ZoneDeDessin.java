@@ -8,24 +8,24 @@ import javax.swing.JPanel;
 public class ZoneDeDessin extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public LinkedList<Figure> figures;
-	
+
 	public ZoneDeDessin(LinkedList<Figure> figures){
 		this.figures = figures;
 	}
-	
+
 	public void paint(Graphics g){
 		super.paint(g);
 		for(Figure f : figures) f.paint(g);
 	}
-	
+
 	public void affichage(){
 		Point p = new Point(10, 80, "A");
-        
+
 		Point p3 = new Point(150, 200, "A");
 		Point p4 = new Point(3, 6,"B");
 		Segment s = null;
@@ -49,7 +49,7 @@ public class ZoneDeDessin extends JPanel {
 		poly.add(p8);
 		poly.add(p9);
 		poly.add(p10);
-		
+
 		figures.add(p);
 		figures.add(s);
 		figures.add(c);
