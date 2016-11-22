@@ -3,6 +3,7 @@ package logicieldedessin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.*;
@@ -14,8 +15,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
-public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
+public class ZoneDeDessin extends JPanel implements MouseInputListener, ActionListener {
 
 	/**
 	 *
@@ -27,12 +29,14 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 	JButton Vider;
 	Figure f;
 	JMenuItem quitter;
-	boolean creerPoint;
-	JMenuItem cercle;
-	JMenuItem segment;
-	JMenuItem poli;
+	JMenuItem Menucercle;
+	JMenuItem Menusegment;
+	JMenuItem Menupoli;
 	JMenuItem modif;
 	JMenuItem Menupoint;
+	boolean creerPoint ;
+	boolean creerSegment ;
+	int initX, initY;
 
 	public ZoneDeDessin(){
 		figures = new LinkedList<Figure>();
@@ -42,6 +46,9 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 		Init.addActionListener(this);
 		
 		Vider.addActionListener(this);
+		
+		creerPoint=false;
+		creerSegment=false;
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this); 
@@ -58,13 +65,7 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 
 		Point p3 = new Point(150, 200, "A");
 		Point p4 = new Point(3, 6,"B");
-		Segment s = null;
-		try {
-			s = new Segment(p3,p4, "S");
-		} catch (PointsConfondusException e1) {
-			e1.printStackTrace();
-		}
-
+		Segment s = new Segment(p3,p4, "S");
 		Point p5 = new Point(220, 150, "A");
 		Point p6 = new Point(260, 100,"B");
 		Cercle c = new Cercle(p5,p6,"C");
@@ -99,9 +100,15 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(creerSegment && f != null & f instanceof Segment)
+		{
+			Point p = new Point(e.getX(), e.getY());
+			Segment s = (Segment)f;
+			s.setP2(p);
+			repaint();
+		}
 	}
 
 	@Override
@@ -122,15 +129,32 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if(creerSegment){
+			if(f == null || !(f instanceof Segment))
+			{
+				Point p = new Point(e.getX(), e.getY());
+				f = new Segment(p,p);
+				figures.add(f);
+			}
+			else
+			{
+				f = null;
+			}
+		}
+	}
+	
+	public void initDroite(int x, int y) {
+		initX = x;
+		initY = y;
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		 
 		if(creerPoint){
 			int x = e.getX();
 			int y = e.getY();
@@ -138,10 +162,18 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 			f = new Point(x,y);
 			figures.add(f);
 			this.repaint();
+			
 		}
 		
 	}
 	
+	public void termineDroite(int x, int y) {
+		// TODO Auto-generated method stub
+			f = new Segment(new Point(initX,initY),new Point(x,y));
+			figures.add(f);
+			this.repaint();
+	}
+
 	public void createMenuBar(JFrame frame){
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -154,27 +186,27 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
         menuBar.add(editerMenu);
         
         Menupoint = new JMenuItem("Point");
-        cercle = new JMenuItem("Cercle");
-        segment = new JMenuItem("Segment");
-        poli = new JMenuItem("Polygone");
+        Menucercle = new JMenuItem("Cercle");
+        Menusegment = new JMenuItem("Segment");
+        Menupoli = new JMenuItem("Polygone");
         quitter = new JMenuItem("Quitter");
         modif = new JMenuItem("Modifier");
         
         nouveau.add(Menupoint);
-        nouveau.add(cercle); 
-        nouveau.add(segment); 
-        nouveau.add(poli); 
+        nouveau.add(Menucercle); 
+        nouveau.add(Menusegment); 
+        nouveau.add(Menupoli); 
         fichierMenu.add(nouveau);
         fichierMenu.add(quitter);
         editerMenu.add(modif);
         
         Menupoint.addActionListener(this);
         
-        cercle.addActionListener(this);
+        Menucercle.addActionListener(this);
         
-        segment.addActionListener(this);
+        Menusegment.addActionListener(this);
         
-        poli.addActionListener(this);
+        Menupoli.addActionListener(this);
         
         quitter.addActionListener(this);
         
@@ -182,7 +214,7 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	
-	public static void main(String[] args) throws PointsConfondusException {
+	public static void main(String[] args){
 		JFrame test = new JFrame();
 		test.setSize(800, 600);
 		
@@ -200,6 +232,7 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 		JPanel panneau1 = new JPanel();
 		ZoneDeDessin panneau2 = new ZoneDeDessin();
 		panneau1.setBackground(Color.lightGray);
+		panneau2.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		
 		//cl = UIManager.getColor ( Init.getBackground() );
 		
@@ -236,7 +269,10 @@ public class ZoneDeDessin extends JPanel implements MouseListener, MouseMotionLi
 		else if(e.getSource().equals(Menupoint)){
 			creerPoint = true;
 		} 
-		else if(e.getSource().equals(segment)) System.out.println("test");
+		else if(e.getSource().equals(Menusegment)){ 
+			creerPoint = false;
+			creerSegment =true;
+		}
 		else if(e.getSource().equals(modif)) System.out.println("test");
 	}
 

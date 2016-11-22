@@ -17,15 +17,13 @@ public class Segment extends Figure {
 	 * @param p2
 	 * @param nom
 	 */
-	public Segment(Point p1, Point p2, String nom) throws PointsConfondusException{
-		  if(p1.equals(p2)) throw new PointsConfondusException(p1, p2);
+	public Segment(Point p1, Point p2, String nom){
 		  this.p1 = p1;
 		  this.p2 = p2;
 		  this.setNom(nom);
 	  }
 
-	  public Segment(Point p1, Point p2) throws PointsConfondusException{
-		  if(p1.equals(p2)) throw new PointsConfondusException(p1, p2);
+	  public Segment(Point p1, Point p2){
 		  this.p1 = p1;
 		  this.p2 = p2;
 	  }
@@ -42,7 +40,23 @@ public class Segment extends Figure {
 	  	 return getNom() +":[ "+ p1.toString() + ";" + p2.toString() + "]";
 	   }
 
-	  public double getLongueur() {
+	  public Point getP1() {
+		return p1;
+	}
+
+	public void setP1(Point p1) {
+		this.p1 = p1;
+	}
+
+	public Point getP2() {
+		return p2;
+	}
+
+	public void setP2(Point p2) {
+		this.p2 = p2;
+	}
+
+	public double getLongueur() {
 		  return p1.distance(p2);
 	  }
 
@@ -85,7 +99,7 @@ public class Segment extends Figure {
 	}
 
 	public void paint(Graphics gc) {
-		gc.drawString(getNom(), ((int)p1.getX() + (int)p2.getX()) / 2, ((int)p1.getY() + (int)p2.getY()) / 2);
+		//gc.drawString(getNom(), ((int)p1.getX() + (int)p2.getX()) / 2, ((int)p1.getY() + (int)p2.getY()) / 2);
 		gc.drawLine((int)p1.getX(), (int)p1.getY(), (int)p2.getX(), (int)p2.getY());
 	}
 
