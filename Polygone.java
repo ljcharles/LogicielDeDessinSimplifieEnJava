@@ -3,11 +3,14 @@ package logicieldedessin;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+/**
+ * @author freshloic
+ *
+ */
 public class Polygone extends Figure{
 
 	private static final long serialVersionUID = -4577800669531061605L;
 	public LinkedList<Point> Sommets;
-
 	public Polygone(){this("");}
 
 	public Polygone(String nom){
@@ -20,16 +23,20 @@ public class Polygone extends Figure{
 		System.out.println(toString());
 	}
 
-	 public String toString(){
-	  	 return getNom();
-	   }
+	public String toString(){
+		return getNom();
+	}
 
 
 	@Override
 	public void translater(double dx, double dy) {
-		for(Point p : Sommets){
-			p.translater(dx, dy);
+		int taille = Sommets.size();
+
+		for( int i=1; i<taille; i++){
+			Sommets.get(i).translater(dx  + (Sommets.get(i).distanceX(Sommets.get(0))), 
+					dy + (Sommets.get(i).distanceY(Sommets.get(0))));
 		}
+		Sommets.get(0).translater(dx, dy);
 	}
 
 	@Override
@@ -38,22 +45,24 @@ public class Polygone extends Figure{
 		int taille = Sommets.size();
 
 		for(Point p : Sommets){
-			x += p.getX();
-			y += p.getY();
+			if(p != null){ 
+				x += p.getX();
+				y += p.getY();
+			}
 		}
 
 		return new Point(x/taille, y/taille);
 	}
-	
+
 	public LinkedList<Point> getPoints(){ return this.Sommets; }
 
-	public Object clone(){
+	public Object cloner(){
 		Polygone p = null;
 		try {
 			p = (Polygone) super.clone();
-				p.Sommets = new LinkedList<Point>();
-				for(Point pt : this.Sommets){
-					p.Sommets.add((Point) pt.clone());
+			p.Sommets = new LinkedList<Point>();
+			for(Point pt : this.Sommets){
+				p.Sommets.add((Point) pt.cloner());
 			}
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -94,14 +103,14 @@ public class Polygone extends Figure{
 					return false;
 			}
 			return true;
-		 }
+		}
 		else if(this.Sommets.get(1).equals(p.Sommets.get((i-1)%p.Sommets.size()))){
-			 for(int j = 2; j < p.Sommets.size(); j++){
-				 if(!this.Sommets.get(j).equals(p.Sommets.get((i-j + p.Sommets.size())%p.Sommets.size())))
-					 return false;
-		     }
+			for(int j = 2; j < p.Sommets.size(); j++){
+				if(!this.Sommets.get(j).equals(p.Sommets.get((i-j + p.Sommets.size())%p.Sommets.size())))
+					return false;
+			}
 
-			 return true;
+			return true;
 		}
 		else
 		{
@@ -111,21 +120,24 @@ public class Polygone extends Figure{
 
 	@Override
 	public void paint(Graphics gc) {
-        int taille = Sommets.size();
-
+		if(getCouleur() != null) gc.setColor(getCouleur());
+		int taille = Sommets.size();
+		int[] xPoints = new int[taille];
+		int[] yPoints = new int[taille];
 
 		for( int i=0; i<taille; i++){
 			int x1 = (int) Sommets.get(i).getX();
 			int y1 = (int) Sommets.get(i).getY();
 
-			int x2 = (int) Sommets.get((i+1)%taille).getX();
-			int y2 = (int) Sommets.get((i+1)%taille).getY();
-			gc.drawLine(x1, y1, x2, y2);
+			xPoints[i] = x1;
+			yPoints[i] = y1;
+
 			gc.drawString(getNom(),
 					(int) this.getCentre().getX(),
 					(int)this.getCentre().getY() - 30);
 		}
 
+		gc.fillPolygon(xPoints, yPoints, taille);
 	}
 
 	@Override
@@ -137,4 +149,9 @@ public class Polygone extends Figure{
 
 	@Override
 	public int getPoids() { return this.getPoints().size(); }
+
+	public Point getLast() {
+		return Sommets.getLast();
+	}
+
 }

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 
 /**
- * @author ljeanc04
+ * @author freshloic
  *
  */
 public class Segment extends Figure {
@@ -12,35 +12,35 @@ public class Segment extends Figure {
 	private static final long serialVersionUID = -8647029111111835870L;
 	private Point p1 , p2;
 
-	  /**
+	/**
 	 * @param p1
 	 * @param p2
 	 * @param nom
 	 */
 	public Segment(Point p1, Point p2, String nom){
-		  this.p1 = p1;
-		  this.p2 = p2;
-		  this.setNom(nom);
-	  }
+		this.p1 = p1;
+		this.p2 = p2;
+		this.setNom(nom);
+	}
 
-	  public Segment(Point p1, Point p2){
-		  this.p1 = p1;
-		  this.p2 = p2;
-	  }
+	public Segment(Point p1, Point p2){
+		this.p1 = p1;
+		this.p2 = p2;
+	}
 
-	  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see monpremierprojet.Figure#afficher()
 	 */
 	public void afficher()
-	  {
-	  	 System.out.println(toString());
-	  }
+	{
+		System.out.println(toString());
+	}
 
-	   public String toString(){
-	  	 return getNom() +":[ "+ p1.toString() + ";" + p2.toString() + "]";
-	   }
+	public String toString(){
+		return getNom() +":[ "+ p1.toString() + ";" + p2.toString() + "]";
+	}
 
-	  public Point getP1() {
+	public Point getP1() {
 		return p1;
 	}
 
@@ -57,26 +57,33 @@ public class Segment extends Figure {
 	}
 
 	public double getLongueur() {
-		  return p1.distance(p2);
-	  }
+		return p2.distance(p1);
+	}
+
+	public double getLongueurX() {
+		return p2.distanceX(p1);
+	}
+
+	public double getLongueurY() {
+		return p2.distanceY(p1);
+	}
 
 	public void translater(double dx, double dy) {
+		p2.translater(dx  + getLongueurX(), dy  + getLongueurY());
 		p1.translater(dx, dy);
-		p2.translater(dx, dy);
-
 	}
 
 	public Point getCentre() {
-		 return new Point((p1.getX() + p2.getX())/2,(p1.getY()+p2.getY())/2,"Centre");
+		return new Point((p1.getX() + p2.getX())/2,(p1.getY()+p2.getY())/2,"Centre");
 
 	}
-	
-	 public LinkedList<Point> getPoints() {
-			LinkedList<Point> liste = new LinkedList<Point>();
-			liste.add(this.p1);
-			liste.add(this.p2);
-			return liste;
-		}
+
+	public LinkedList<Point> getPoints() {
+		LinkedList<Point> liste = new LinkedList<Point>();
+		liste.add(this.p1);
+		liste.add(this.p2);
+		return liste;
+	}
 
 	public boolean equals(Segment s){
 		if(s != null)
@@ -86,12 +93,12 @@ public class Segment extends Figure {
 			return false;
 	}
 
-	public Object clone(){
+	public Object cloner(){
 		Segment ob = null;
 		try {
 			ob = (Segment) super.clone();
-			((Segment) ob).p1 = (Point) this.p1.clone();
-			((Segment) ob).p2 = (Point) this.p2.clone();
+			((Segment) ob).p1 = (Point) this.p1.cloner();
+			((Segment) ob).p2 = (Point) this.p2.cloner();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -99,8 +106,10 @@ public class Segment extends Figure {
 	}
 
 	public void paint(Graphics gc) {
+		if(getCouleur() != null) gc.setColor(getCouleur());
 		//gc.drawString(getNom(), ((int)p1.getX() + (int)p2.getX()) / 2, ((int)p1.getY() + (int)p2.getY()) / 2);
 		gc.drawLine((int)p1.getX(), (int)p1.getY(), (int)p2.getX(), (int)p2.getY());
+
 	}
 
 	@Override
@@ -110,8 +119,7 @@ public class Segment extends Figure {
 
 	@Override
 	int getPoids() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	}
+}

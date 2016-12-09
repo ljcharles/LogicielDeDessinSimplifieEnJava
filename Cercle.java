@@ -3,51 +3,65 @@ package logicieldedessin;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+/**
+ * @author freshloic
+ *
+ */
 public class Cercle extends Figure {
 
-	  /**
+	/**
 	 *
 	 */
 	private static final long serialVersionUID = 6947876081184348818L;
 
 	private Point Centre;
 
-	  private double rayon;
-
-	  public Cercle(Point Centre,  Point p, String nom){
-		  this.Centre = Centre;
-		  this.rayon = Centre.distance(p);
-		  this.setNom(nom);
-	  }
-
-	  public Cercle(Point Centre, double rayon){
-		  this.Centre = Centre;
-		  this.rayon = rayon;
-	  }
-
-      public Cercle(Point Centre, Point p){
-    	  this(Centre,p,"");
-	  }
-
-	  public void afficher()
-	  {
-	  	 System.out.println(toString());
-	  }
-
-	   public String toString(){
-	  	 return getNom() + " r =" + rayon + " " + Centre;
-	   }
+	private double rayon;
 
 
-	  public Point getCentre() {
+	public Cercle(Point Centre,  Point p, String nom){
+		this.Centre = Centre;
+		this.rayon = Centre.distance(p);
+		this.setNom(nom);
+	}
+
+	public Cercle(Point Centre, double rayon){
+		this.Centre = Centre;
+		this.rayon = rayon;
+	}
+
+	public Cercle(Point Centre, Point p){
+		this(Centre,p,"");
+	}
+
+	public void afficher()
+	{
+		System.out.println(toString());
+	}
+
+	public String toString(){
+		return getNom() + " r =" + rayon + " " + Centre;
+	}
+
+
+	public Point getCentre() {
 		return Centre;
-	  }
-	  
-	  public LinkedList<Point> getPoints() {
+	}
+
+	public double getRayon() {
+		return rayon;
+	}
+
+
+	public void setRayon(double rayon) {
+		this.rayon = rayon;
+	}
+
+	public LinkedList<Point> getPoints() {
 		LinkedList<Point> liste = new LinkedList<Point>();
 		liste.add(this.Centre);
 		return liste;
-	  }
+	}
 
 	/* (non-Javadoc)
 	 * @see monpremierprojet.Figure#translater(double, double)
@@ -67,22 +81,23 @@ public class Cercle extends Figure {
 			return false;
 	}
 
-	 /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone(){
-			Cercle ob = null;
-			try {
-				ob = (Cercle) super.clone();
-				ob.Centre = (Point) Centre.clone();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-			return ob;
+	public Object cloner(){
+		Cercle ob = null;
+		try {
+			ob = (Cercle) super.clone();
+			ob.Centre = (Point) Centre.cloner();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
 		}
+		return ob;
+	}
 
 	@Override
 	public void paint(Graphics gc) {
+		if(getCouleur() != null) gc.setColor(getCouleur());
 		gc.drawString(getNom(), (int)Centre.getX(), (int)Centre.getY());
 		gc.drawOval((int)Centre.getX() - (int)rayon, (int)Centre.getY() - (int)rayon, (int)rayon*2, (int)rayon*2);
 	}
@@ -95,4 +110,4 @@ public class Cercle extends Figure {
 	@Override
 	public int getPoids() { return this.getPoints().size(); }
 
-	}
+}

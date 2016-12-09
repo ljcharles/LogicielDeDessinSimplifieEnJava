@@ -10,6 +10,10 @@ import java.util.LinkedList;
 
 import javax.swing.*;
 
+/**
+ * @author freshloic
+ *
+ */
 public class Test {
 
 	public void testPoint(){
@@ -24,8 +28,8 @@ public class Test {
 		p2.afficher();
 		System.out.println(p1.equals(p2));
 
-		Point p9;
-		p9 = (Point) p.clone();
+		Point p9 = null;
+		p9 = (Point) p.cloner();
 		p.afficher();
 		p9.afficher();
 
@@ -44,7 +48,7 @@ public class Test {
 		System.out.println(s.equals(s1));
 
 		Segment s3;
-		s3 =  (Segment) s.clone();
+		s3 =  (Segment) s.cloner();
 		s.afficher();
 		s3.afficher();
 
@@ -65,7 +69,7 @@ public class Test {
 		System.out.println(c.equals(c1));
 
 		Cercle c2;
-		c2 = (Cercle) c.clone();
+		c2 = (Cercle) c.cloner();
 		c.afficher();
 		c2.afficher();
 
@@ -76,14 +80,14 @@ public class Test {
 		for(Object o : col) 
 			if(o instanceof Serializable)
 				try { out.writeObject(o); } 
-			    catch (IOException e) { e.printStackTrace();}
+		catch (IOException e) { e.printStackTrace();}
 	}
-	
+
 	public void testSerialization(){
 		Point p7 = new Point(2, 14, "A");
 		Point p8 = new Point(14, 5,"B");
 		Cercle c1 = new Cercle(p7,p8,"C1");
-		
+
 		Point p = new Point(1, 2, "E");
 		Point p1 = new Point(3, 4,"F");
 		Point p2 = new Point(5, 6, "G");
@@ -99,11 +103,11 @@ public class Test {
 			OutputStream f = new FileOutputStream("testJava.txt");
 			ObjectOutputStream out = new ObjectOutputStream(f);
 			LinkedList<Figure> lf = new LinkedList<Figure>();
-			
+
 			lf.add(poly);
 			lf.add(c1);
 			lf.add(p);
-			
+
 			SauveQuiPeut(lf, out);		
 			out.close();
 		} catch (IOException e) {
@@ -125,7 +129,7 @@ public class Test {
 			f.afficher();
 			f.translater(4, 5);
 			if(f instanceof Point)
-			f.afficher();
+				f.afficher();
 		}
 	}
 
@@ -205,7 +209,7 @@ public class Test {
 		Test test = new Test();
 		test.testPoint();
 		test.testSegment();
-	    test.testCercle();
+		test.testCercle();
 		test.testSerialization();
 		test.testStructures();
 		test.testPolygone();
